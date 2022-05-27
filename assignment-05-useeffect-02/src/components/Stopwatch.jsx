@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useRef,useEffect } from "react";
 
 function msToTime(duration) {
     var milliseconds = Math.floor((duration % 1000) / 100),
@@ -15,7 +15,7 @@ function msToTime(duration) {
   }
 
 const Stopwatch = () => {
-  const [timerId, setTimerId] = useState(null);
+  let timerId = useRef(null)
   const [watch, setWatch] = useState(1000);
 
   const start = () => {
@@ -24,17 +24,23 @@ const Stopwatch = () => {
         setWatch((prev) => prev + 1000);
       }, 100);
 
-      setTimerId(id);
+      timerId.current = id;
     }
   };
 
   const pause = () => {
     clearInterval(timerId);
+    timerId.current = null;
   };
   const reset = () => {
     clearInterval(timerId);
     setWatch(0);
+    timerId.current = null;
   };
+
+  useEffect(() => {
+
+  })
 
   return (
     <div>
