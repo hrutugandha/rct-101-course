@@ -19,7 +19,7 @@ const Stopwatch = () => {
   const [watch, setWatch] = useState(1000);
 
   const start = () => {
-    if (!timerId) {
+    if (!timerId.current) {
       let id = setInterval(() => {
         setWatch((prev) => prev + 1000);
       }, 100);
@@ -33,7 +33,7 @@ const Stopwatch = () => {
     timerId.current = null;
   };
   const reset = () => {
-    clearInterval(timerId);
+    clearInterval(timerId.current);
     setWatch(0);
     timerId.current = null;
   };
