@@ -1,10 +1,9 @@
 import React from 'react'
-import {useState, useRef} from 'react'
+import {useState } from 'react'
 
 const Form = () => {
 
     const [form,setForm] = useState({})
-    const ref = useRef()
 
     const handleSubmit = (e) => {
         e.preventDefault();

@@ -6,7 +6,6 @@ const Todo = () => {
   
     const [todos, setTodos] = useState([]);
     const [text,setText] = useState([])
-    const [isChecked, setIsChecked] = useState(todos.isChecked);
 
     const deleteTodo = idToDelete => setTodos(currentTodos => currentTodos.filter(todo => todo.id !== idToDelete))
 
@@ -16,7 +15,7 @@ const Todo = () => {
       if(newtask && !isTaskPresent) {
         const payload = {
           text: text,
-          isComplete: newtask
+          isComplete: false
         };
         axios.post("http://localhost:8080/todos", payload)
       }
@@ -39,10 +38,10 @@ const Todo = () => {
        {todos.map((todo) => {
           return (
             <div key={todo.id}>
-              <input type="checkbox" checked={todo.isComplete}/>
               {todo.id}
               {" : "}
-              {todo.text}
+              {todo.text} { "----------"}
+              {todo.isComplete ? "Complete" : "Not Complete"}
               <button onClick ={() => deleteTodo(todo.id)}>X</button>
             </div>
           );
