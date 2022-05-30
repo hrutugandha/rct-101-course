@@ -14,7 +14,8 @@ const Form = () => {
             data.married = "Yes";
         }
 
-        fetch("http://localhost:8080/users", {
+        const addData = async() => {
+            await fetch("http://localhost:8080/users", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,6 +26,9 @@ const Form = () => {
             .then(dbData => {
                 setTable([...table, dbData]);
             })
+            
+        }
+        addData();
     }
 
     const handleChange = (e) => {
@@ -40,20 +44,6 @@ const Form = () => {
             })
         }
     }
-
-
-    useEffect(
-        () => {
-            fetch("http://localhost:5000/users")
-                .then((res) => res.json())
-                .then((dbData) => {
-                    setTable(dbData);
-
-                    console.log("dbData", dbData);
-                })
-        },
-        []
-    );
 
     useEffect(
         () => {
@@ -112,8 +102,9 @@ const Form = () => {
                 </input>
                 <label htmlFor="married"> I am married </label><br></br>
 
-                <input type="submit" value="Submit"></input>
+                <input type="submit" value="Submit" onClick={handleSubmit}></input>
             </form>
+            {}
 
             <table>
                 <tr>
@@ -125,11 +116,11 @@ const Form = () => {
                     <th>Married</th>
                 </tr>
                 {table.map((e) => {
-                    return < Body user={e} />
+                    return <Body key={e.id} user={e} />
                 })}
             </table>
         </>
     )
 }
 
-export { Form }
+export default Form;
