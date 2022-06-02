@@ -1,0 +1,9 @@
+{
+    "Products":[
+        {"id": 1, "name":"tshirt"},
+        {"id": 2, "name":"pant"},
+        {"id": 3, "name":"top"},
+        {"id": 4, "name":"blouse"},
+        {"id": 5, "name":"bermuda shorts"}
+    ]
+}
