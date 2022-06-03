@@ -1,6 +1,7 @@
 import React from 'react'
 import {useState,useEffect} from 'react'
 import axios from 'axios'
+import styles from './todo.module.css'
 
 const Todo = () => {
   
@@ -37,11 +38,8 @@ const Todo = () => {
        <div>
        {todos.map((todo) => {
           return (
-            <div key={todo.id}>
-              {todo.id}
-              {" : "}
-              {todo.text} { "----------"}
-              {todo.isComplete ? "Complete" : "Not Complete"}
+            <div key={todo.id} className={styles.container} >
+              <p className={todo.isComplete ? styles.striked : ""}> {todo.text} </p>
               <button onClick ={() => deleteTodo(todo.id)}>X</button>
             </div>
           );

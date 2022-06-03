@@ -1,0 +1,13 @@
+.striked{
+    text-decoration: line-through;
+
+}
+
+.container > p,button{
+    margin: 0 auto;
+
+}
+
+.container{
+    display: flex;
+}

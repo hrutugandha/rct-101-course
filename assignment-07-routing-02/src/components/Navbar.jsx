@@ -1,13 +1,17 @@
 import React from 'react'
-import {useContext} from 'react'
-import {Link,useNavigate} from 'react-router-dom'
+import {AuthContext} from '../context/AuthContext'
+import {Redirect} from 'react-router-dom'
+import Admin from '../components/Admin'
 
-const Navbar = () => {
-  return (
-    <div>
-      
-    </div>
+export const Dashboard = () => {
+  const {isAuth} = React.useContext(AuthContext);
+  return isAuth?(
+      <div>
+          Dashboard
+          <Admin/>
+      </div>
+  ): (
+       <Redirect to={"/login"}  />
   )
-}
+};
 
-export default Navbar

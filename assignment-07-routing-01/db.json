@@ -1,9 +1,9 @@
 {
     "Products":[
-        {"id": 1, "name":"tshirt"},
-        {"id": 2, "name":"pant"},
-        {"id": 3, "name":"top"},
-        {"id": 4, "name":"blouse"},
-        {"id": 5, "name":"bermuda shorts"}
+        {"id": 1, "name":"tshirt","price": "$499"},
+        {"id": 2, "name":"pant" ,"price": "$680"},
+        {"id": 3, "name":"top" ,"price": "$299"},
+        {"id": 4, "name":"blouse" ,"price": "$899"},
+        {"id": 5, "name":"bermuda shorts" ,"price": "$200"}
     ]
 }
