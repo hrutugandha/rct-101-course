@@ -1,95 +1,104 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useEffect, useState } from "react";
+import style from "./Timer.module.css";
 
+export default function Timer() {
 
-const Timer = () => {
+    const [sec, setSec] = useState(0);
+    const [min, setMin] = useState(0);
+    const [hr, setHr] = useState(0);
+    const [timeOn, setTimeOn] = useState(false);
 
-	// We need ref in this, because we are dealing
-	// with JS setInterval to keep track of it and
-	// stop it when needed
-	const Ref = useRef(null);
+    useEffect(() => {
+        var idhr = null
+        var idmin = null
+        var idsec = null
+        if (timeOn) {
+            idsec = setInterval(() => {
+                if(sec<=0)
+                {
+                    setSec(0);
+                }
+                else{
+                    setSec((prev) => prev - 1)
+                }
+                if (sec < 0) {
+                    clearInterval(idsec);
+                }
+            }, 1000)
+            if (sec === 0 && min !== 0) {
+                clearInterval(idsec)
+                idmin = setInterval(() => {
+                    setMin((prev) => prev - 1)
+                    if (min === 0) {
+                        clearInterval(idmin);
+                    }
+                    else {
+                        setSec(60);
+                    }
+                }, 1000)
+            }
+            if (min === 0 && hr !== 0) {
+                idhr = setInterval(() => {
+                    setHr((prev) => prev - 1)
+                    if (hr === 0) {
+                        clearInterval(idhr);
+                    }
+                    else {
+                        setMin(60)
+                    }
+                }, 1000)
+            }
+            if (hr === 0) {
+                clearInterval(idhr)
+            }
+            if (hr === 0 && min === 0 && sec === 0) {
+                clearInterval(idhr)
+                clearInterval(idmin);
+                clearInterval(idsec);
+            }
+        }
+        else {
+            clearInterval(idsec);
+            clearInterval(idmin);
+            clearInterval(idhr);
+        }
 
-	// The state for our timer
-	const [timer, setTimer] = useState('00:00:00');
+        return () => {
+            clearInterval(idsec);
+            clearInterval(idmin);
+            clearInterval(idhr);
+        }
 
+    }, [hr, min, sec, timeOn])
 
-	const getTimeRemaining = (e) => {
-		const total = Date.parse(e) - Date.parse(new Date());
-		const seconds = Math.floor((total / 1000) % 60);
-		const minutes = Math.floor((total / 1000 / 60) % 60);
-		const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-		return {
-			total, hours, minutes, seconds
-		};
-	}
+    const handleStart = () => {
+        setTimeOn(true);
+    }
 
+    const handleReset = () => {
+        setHr(0);
+        setMin(0);
+        setSec(0);
+        setTimeOn(false)
+    }
 
-	const startTimer = (e) => {
-		let { total, hours, minutes, seconds }
-					= getTimeRemaining(e);
-		if (total >= 0) {
+    const handleStop = () => {
+        setTimeOn(false)
+    }
 
-			// update the timer
-			// check if less than 10 then we need to
-			// add '0' at the begining of the variable
-			setTimer(
-				(hours > 9 ? hours : '0' + hours) + 'h :' +
-				(minutes > 9 ? minutes : '0' + minutes) + 'm :'
-				+ (seconds > 9 ? seconds : '0' + seconds) + "s"
-			)
-		}
-	}
-
-
-	const clearTimer = (e) => {
-
-		// If you adjust it you should also need to
-		// adjust the Endtime formula we are about
-		// to code next	
-		setTimer('00:0:10');
-
-		// If you try to remove this line the
-		// updating of timer Variable will be
-		// after 1000ms or 1sec
-		if (Ref.current) clearInterval(Ref.current);
-		const id = setInterval(() => {
-			startTimer(e);
-		}, 1000)
-		Ref.current = id;
-	}
-
-	const getDeadTime = () => {
-		let deadline = new Date();
-
-		// This is where you need to adjust if
-		// you entend to add more time
-		deadline.setSeconds(deadline.getSeconds() + 10);
-		return deadline;
-	}
-
-	// We can use useEffect so that when the component
-	// mount the timer will start as soon as possible
-
-	// We put empty array to act as componentDid
-	// mount only
-	useEffect(() => {
-		clearTimer(getDeadTime());
-	}, []);
-
-	// Another way to call the clearTimer() to start
-	// the countdown is via action event from the
-	// button first we create function to be called
-	// by the button
-	const onClickReset = () => {
-		clearTimer(getDeadTime());
-	}
-
-	return (
-		<div className="App">
-			<h2>{timer}</h2>
-			<button onClick={onClickReset}>Reset</button>
-		</div>
-	)
+    return (
+        <div className={style.timer}>
+             <h1>Timer</h1>
+            <div className={style.box}>
+                <input type="number" placeholder="00h" onChange={(e) => setHr(parseInt(e.target.value))} value={hr} />hr
+                : <input type="number" placeholder="00m" onChange={(e) => setMin(parseInt(e.target.value))} value={min} />min
+                : <input type="number" placeholder="00s" onChange={(e) => setSec(parseInt(e.target.value))} value={sec} />sec
+            </div>
+            <div className={style.b}>
+                <button className={style.start} onClick={handleStart}>START</button>
+                <button className={style.stop} onClick={handleStop}>STOP</button>
+                <button className={style.reset} onClick={handleReset}>RESET</button>
+            </div>
+        </div>
+    )
 }
-
-export default Timer;
-

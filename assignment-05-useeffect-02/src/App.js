@@ -1,20 +1,31 @@
-import React from 'react'
-import "./App.css";
-import {Routes,Route} from 'react-router-dom'
-import Timer from './components/Timer'
-import Stopwatch from './components/Stopwatch'
-import Navbar from './components/Navbar';
 
-const App = () => {
+import { useState } from 'react';
+import './App.css';
+import StopWatch from './Components/Stopwatch';
+import Timer from './Components/Timer';
+
+function App() {
+  const [display, setDisplay] = useState(true);
   return (
-    <div className='App'>
-      <Navbar/>
-      <Routes>
-        <Route  path='/' element={<Stopwatch/>}/>
-        <Route  path='/timer' element={<Timer/>}/>
-      </Routes>
+    <>
+    <h1 className="h-tag">Timer And Stopwatch</h1>
+    <div className="App">
+      <div className="button-box">
+        <button onClick={() => setDisplay(true)}>Timer</button>
+        <button onClick={() => setDisplay(false)}>Stopwatch</button>
+      </div>
+      {
+        display ?
+          <div className="timer">
+            <Timer />
+          </div> :
+          <div className="stopwatch">
+            <StopWatch />
+          </div>
+      }
     </div>
-  )
+    </>
+  );
 }
 
-export default App
+export default App;
