@@ -1,0 +1,7 @@
+{
+    "todos":[
+        {"id":1, "text": "hello", "isComplete": false},
+        {"id":2, "text": "love", "isComplete": true},
+        {"id":3, "text": "universe", "isComplete": false},
+    ]
+}
